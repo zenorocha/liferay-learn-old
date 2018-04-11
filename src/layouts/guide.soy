@@ -1,0 +1,40 @@
+{namespace guide}
+
+/**
+ */
+{template .render}
+	<div class="main">
+		<main class="guide">
+			<div class="docs">
+				{call .guide data="all" /}
+			</div>
+		</main>
+	</div>
+{/template}
+
+/**
+ */
+{template .guide}
+	{@param content: ?}
+
+	<div>
+		<div class="container-hybrid">
+			<div class="docs-guide row">
+				<div class="docs-content col-xs-16 col-md-9">
+					<div class="guide-content">
+						{$content}
+					</div>
+				</div>
+
+				<nav class="col-xs-16 col-md-offset-2 col-md-5">
+					<div class="docs-nav-container">
+						{call ElectricReadingProgress.render}
+							{param elementClasses: 'docs-nav' /}
+							{param offsetTop: 200 /}
+						{/call}
+					</div>
+				</nav>
+			</div>
+		</div>
+	</div>
+{/template}
