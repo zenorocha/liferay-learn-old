@@ -1,9 +1,9 @@
 {
   "private": true,
-  "name": "liferay-learn-ee",
+  "name": "liferay-learning-ee",
   "version": "0.0.0",
   "scripts": {
-    "start": "electric run"
+    "start": "electric"
   },
   "devDependencies": {
     "electric-cli": "^2.2.0",
