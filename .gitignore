@@ -1,2 +1,6 @@
-dist/
-node_modules/
+.deploy
+.publish
+.temp
+dist
+node_modules
+temp
