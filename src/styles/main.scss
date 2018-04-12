@@ -1,4 +1,4 @@
-$accent: #4285F4;
+$accent: red;
 
 @import "marble";
 
@@ -22,3 +22,6 @@ $accent: #4285F4;
 
 // Tutorial
 @import "templates/tutorial";
+
+// Custom
+@import "_custom";

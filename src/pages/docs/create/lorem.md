@@ -9,7 +9,7 @@ weight: 1
 
 <article id="1">
 
-## Lorem ipsum dolor sit amet
+## Liferay
 
 ```xml
 <p>Test, test, test</p>
