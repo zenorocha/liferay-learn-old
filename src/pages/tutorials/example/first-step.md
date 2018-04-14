@@ -14,7 +14,8 @@ weight: 1
 var hello = function() {
 	console.log('Hello, World!');
 };
-```
+``` 
+
 ##### Install Liferay Developer Tools
 
 In order to follow the exercise in the video, you’ll need to install the following:
@@ -55,7 +56,7 @@ To start, we’ll create a simple API
 + Open HelloService.java
 + Add the “hello” method signature below
 
-```java
+```text/x-java
 package com.liferay.university.hello.api;
 
 public interface HelloService {
@@ -64,7 +65,7 @@ public interface HelloService {
 ```
 If you use Liferay Developer Studio with Liferay Workspace, it will have a proper project structure. Inspect bnd.bnd - it will have the following content:
 
-```java
+```text/x-java
 Bundle-Name: helloworld-api
 Bundle-SymbolicName: com.liferay.university.hello.api
 Bundle-Version: 1.0.0
