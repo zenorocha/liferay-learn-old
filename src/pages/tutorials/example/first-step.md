@@ -10,11 +10,6 @@ weight: 1
 
 ### {$page.title}
 
-```javascript
-var hello = function() {
-	console.log('Hello, World!');
-};
-``` 
 
 ##### Install Liferay Developer Tools
 
@@ -65,7 +60,7 @@ public interface HelloService {
 ```
 If you use Liferay Developer Studio with Liferay Workspace, it will have a proper project structure. Inspect bnd.bnd - it will have the following content:
 
-```text/x-java
+```text/x-sh
 Bundle-Name: helloworld-api
 Bundle-SymbolicName: com.liferay.university.hello.api
 Bundle-Version: 1.0.0
@@ -78,7 +73,7 @@ When this project is built, we’ll have a bundle that we can deploy to any OSGi
 + Type g! lb helloworld to list all the bundles (lb) that have “helloworld” in their name
 
 Verify that helloworld-api is Active:
-```java
+```text/x-sh
 g! lb helloworld
 START LEVEL 20
    ID|State  	|Level|Name
@@ -94,7 +89,7 @@ Now create a second project with the service implementation.
 
 When the project is created, take a look at the HelloServiceImpl class:
 
-```java
+```text/x-java
 package com.liferay.university.hello.impl;
 
 import com.liferay.university.hello.api.HelloService;
@@ -116,7 +111,7 @@ The gradle implementation in Liferay Workspace makes other modules from the same
 + Open build.gradle
 + Add the following line to the existing dependencies:
 
-```java
+```text/x-java
 compileOnly project(":modules:helloworld-api")
 ```
 + Next, we need to get gradle to pick up the changed dependencies.
@@ -124,7 +119,7 @@ compileOnly project(":modules:helloworld-api")
 
 The resulting project will automatically deploy to Liferay, ending up with both of our projects being available:
 
-```java
+```text/x-sh
 g! lb helloworld
 START LEVEL 20
    ID|State  	|Level|Name
@@ -140,7 +135,7 @@ To call the service, let’s build a quick and dirty Gogo-Shell command that uti
 
 **Note:** This bundle will also depend on helloworld-api, just like the service implementation. Add the same dependency as above to build.gradle.Next, let’s call the relevant HelloService implementation and display the results in Gogo Shell.
 
-```java
+```text/x-java
 package com.liferay.university.command;
 
 import com.liferay.university.hello.api.HelloService;
@@ -169,7 +164,7 @@ The @Component declaration will make sure that we can easily use this class as a
 
 Let’s try this: Validate that your service is deployed and active in Gogo Shell:
 
-```java
+```text/x-sh
 g! lb helloworld
 START LEVEL 20
    ID|State  	|Level|Name
@@ -179,7 +174,7 @@ START LEVEL 20
 ```
 
 Now type:
-```java
+```text/x-sh
 g! say hello
 hello
 ```
@@ -191,14 +186,14 @@ hello
 Let’s use this simple code for further experimentation with Gogo Shell and mess with the runtime. 
 Note: Replace “591” with the ID for your service from Gogo Shell.
 
-```java
+```text/x-sh
 g! stop 591
 g! say hello
 gogo: CommandNotFoundException: Command not found: say
 ```
 ###### What Happened?
 
-```java
+```text/x-sh
 g! lb helloworld
 START LEVEL 20
    ID|State  	|Level|Name
