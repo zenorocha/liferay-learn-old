@@ -60,7 +60,7 @@ public interface HelloService {
 ```
 If you use Liferay Developer Studio with Liferay Workspace, it will have a proper project structure. Inspect bnd.bnd - it will have the following content:
 
-```text/x-sh
+```text/x-
 Bundle-Name: helloworld-api
 Bundle-SymbolicName: com.liferay.university.hello.api
 Bundle-Version: 1.0.0
@@ -73,7 +73,7 @@ When this project is built, we’ll have a bundle that we can deploy to any OSGi
 + Type g! lb helloworld to list all the bundles (lb) that have “helloworld” in their name
 
 Verify that helloworld-api is Active:
-```text/x-sh
+```text/x-
 g! lb helloworld
 START LEVEL 20
    ID|State  	|Level|Name
@@ -119,7 +119,7 @@ compileOnly project(":modules:helloworld-api")
 
 The resulting project will automatically deploy to Liferay, ending up with both of our projects being available:
 
-```text/x-sh
+```text/x-
 g! lb helloworld
 START LEVEL 20
    ID|State  	|Level|Name
@@ -164,7 +164,7 @@ The @Component declaration will make sure that we can easily use this class as a
 
 Let’s try this: Validate that your service is deployed and active in Gogo Shell:
 
-```text/x-sh
+```text/x-
 g! lb helloworld
 START LEVEL 20
    ID|State  	|Level|Name
@@ -186,14 +186,14 @@ hello
 Let’s use this simple code for further experimentation with Gogo Shell and mess with the runtime. 
 Note: Replace “591” with the ID for your service from Gogo Shell.
 
-```text/x-sh
+```text/x-
 g! stop 591
 g! say hello
 gogo: CommandNotFoundException: Command not found: say
 ```
 ###### What Happened?
 
-```text/x-sh
+```text/x-
 g! lb helloworld
 START LEVEL 20
    ID|State  	|Level|Name
@@ -204,6 +204,7 @@ START LEVEL 20
 ###### Again: What Happened?
 
 The helloworld-command service has a dependency on “helloworld-service” that is no longer satisfied. Thus, the OSGi runtime has not only stopped the service implementation, but also the helloworld-command service. 
+
 **Next,** start the helloworld-service bundle again and see if helloworld-command is restarted as well.
 
 ##### OSGi Bundle Lifecycle
