@@ -1,27 +1,36 @@
 ---
 title: "Exercise: Your First Service"
-description: "Foo bar."
-buttonTitle: "Next"
-parentId: "example"
-layout: "tutorial"
-time: 120
+description: "Let's get started!"
+icon: "flash"
+layout: "guide"
 weight: 1
 ---
 
-### {$page.title}
+###### {$page.description}
 
+<article id="1">
 
-##### Install Liferay Developer Tools
+## Install Liferay Developer Tools
 
 In order to follow the exercise in the video, you’ll need to install the following:
 
 + Liferay Developer Studio
 + Liferay Workspace
 
-###### Pro Tip
+<aside>
+
+###### <span class="icon-16-star"></span> Pro Tip
+
 Check out the video in the previous chapter for a step-by-step walkthrough of installing Liferay Developer Studio and Liferay Workspace:
 
-##### Exercise Overview
+</aside>
+
+</article>
+
+<article id="2">
+
+## Exercise Overview
+
 For the first demonstration, we’ll create three projects:
 
 + a `simple` API for a service
@@ -30,17 +39,23 @@ For the first demonstration, we’ll create three projects:
 
 As we want to be as simple as possible, we’ll stick with the most basic components. Liferay comes with a shell, called `Gogo Shell`. We’ll display our output there.
 
-##### Service API
+</article>
+
+<article id="3">
+
+## Service API
 
 To start, we’ll create a simple API
 
 ###### Create
+
 + `Open` Liferay Deveoper Studio
 + Create a `Liferay Module Project`
 + Name the project: `“helloworld-api”`
 + For `Project Template Name`, select `“api”` from the drop down
 
 ###### Follow
+
 + Click `Next`
 + Component Class Name: `HelloService`
 + a simple API for a service
@@ -48,6 +63,7 @@ To start, we’ll create a simple API
 + Click `Finish`
 
 ###### Type
+
 + Open `HelloService.java`
 + Add the `hello` method signature below
 
@@ -58,28 +74,37 @@ public interface HelloService {
     String hello(String parameter);
 }
 ```
+
 If you use Liferay Developer Studio with Liferay Workspace, it will have a proper project structure. Inspect `bnd.bnd` - it will have the following content:
 
-```text/x-
+```text
 Bundle-Name: helloworld-api
 Bundle-SymbolicName: com.liferay.university.hello.api
 Bundle-Version: 1.0.0
 Export-Package: com.liferay.university.hello.api
 ```
+
 ###### Deploy To Your Container
+
 When this project is built, we’ll have a bundle that we can deploy to any OSGi container. As you have Liferay, let’s start the server.
 
 + Open a telnet client on localhost, port 11311, to access Gogo Shell
 + Type g! lb helloworld to list all the bundles (lb) that have “helloworld” in their name
 
 Verify that helloworld-api is Active:
-```text/x-
+
+```text
 g! lb helloworld
 START LEVEL 20
    ID|State  	|Level|Name
   590|Active 	|    1|helloworld-api (1.0.0)
 ```
-##### Service Implementation
+
+</article>
+
+<article id="4">
+
+## Service Implementation
 
 ###### Create
 Now create a second project with the service implementation.
@@ -104,6 +129,7 @@ public class HelloServiceImpl implements HelloService {
     }
 }
 ```
+
 Notice that the class “HelloService” is showing up as unresolved. To fix this, let’s import our interface.
 
 The gradle implementation in Liferay Workspace makes other modules from the same workspace easily available.
@@ -111,7 +137,7 @@ The gradle implementation in Liferay Workspace makes other modules from the same
 + Open build.gradle
 + Add the following line to the existing dependencies:
 
-```text/x-java
+```text
 compileOnly project(":modules:helloworld-api")
 ```
 + Next, we need to get gradle to pick up the changed dependencies.
@@ -119,14 +145,19 @@ compileOnly project(":modules:helloworld-api")
 
 The resulting project will automatically deploy to Liferay, ending up with both of our projects being available:
 
-```text/x-
+```text
 g! lb helloworld
 START LEVEL 20
    ID|State  	|Level|Name
   590|Active 	|	1|helloworld-api (1.0.0)
   591|Active 	|	1|helloworld-service (1.0.0)
 ```
-##### Calling The Service
+
+</article>
+
+<article id="5">
+
+## Calling The Service
 
 To call the service, let’s build a quick and dirty Gogo-Shell command that utilizes our service:
 
@@ -160,11 +191,13 @@ public class HelloWorldCommand {
     private HelloService helloService;
 }
 ```
+
 The @Component declaration will make sure that we can easily use this class as a command in Gogo Shell. Let’s try this: On Gogo Shell, validate that your service is deployed and active:
 
 Let’s try this: Validate that your service is deployed and active in Gogo Shell:
 
-```text/x-
+
+```text
 g! lb helloworld
 START LEVEL 20
    ID|State  	|Level|Name
@@ -174,26 +207,31 @@ START LEVEL 20
 ```
 
 Now type:
-```text/x-sh
+
+```text
 g! say hello
 hello
 ```
 
 **Congratulations,** your first and simplest possible OSGi Declarative Service.
 
-##### Dependency Injection Through OSGi
+</article>
+
+<article id="6">
+
+## Dependency Injection Through OSGi
 
 Let’s use this simple code for further experimentation with Gogo Shell and mess with the runtime. 
 Note: Replace “591” with the ID for your service from Gogo Shell.
 
-```text/x-
+```
 g! stop 591
 g! say hello
 gogo: CommandNotFoundException: Command not found: say
 ```
 ###### What Happened?
 
-```text/x-
+```
 g! lb helloworld
 START LEVEL 20
    ID|State  	|Level|Name
@@ -201,6 +239,7 @@ START LEVEL 20
   591|Resolved 	|	1|helloworld-service (1.0.0)
   592|Resolved 	|	1|helloworld-command (1.0.0)
 ```
+
 ###### Again: What Happened?
 
 The helloworld-command service has a dependency on “helloworld-service” that is no longer satisfied. Thus, the OSGi runtime has not only stopped the service implementation, but also the helloworld-command service. 
@@ -211,6 +250,6 @@ The helloworld-command service has a dependency on “helloworld-service” that
 
 This brings us to the lifecycle of an OSGi bundle. As soon as you have deployed a bundle into an OSGi runtime, the runtime will attempt to resolve all available dependencies:
 
-![Osgi Process]()
-
 Let’s keep things simple with this first exercise, and make it more interesting in the next exercise. We’ll introduce a second implementation for our API and see if the new deployment meets your expectations.
+
+</article>
