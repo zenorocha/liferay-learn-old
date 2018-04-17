@@ -1,27 +1,57 @@
 ---
-title: "Exercise: Your First Service"
+title: "Deploy"
 description: "Let's get started!"
-icon: "flash"
 layout: "guide"
-weight: 1
+icon: "cloud"
+weight: 4
 ---
 
 ###### {$page.description}
 
 <article id="1">
 
-## Install Liferay Developer Tools
+## Deploy Multiple Implementations Of A Service
 
-In order to follow the exercise in the video, you’ll need to install the following:
 
-+ [Liferay Developer Studio](https://web.liferay.com/get-ee-trial/downloads/developer-studio)
-+ [Liferay Workspace](https://customer.liferay.com/documentation/7.0/develop/tutorials/-/official_documentation/tutorials/installing-liferay-workspace)
+Each API can have multiple service implementations. Let’s try it out to see how multiple service implementations interact in the OSGi runtime.
+
 
 <aside>
 
 ###### <span class="icon-16-star"></span> Pro Tip
 
-Check out the video in the previous chapter for a step-by-step walkthrough of installing Liferay Developer Studio and Liferay Workspace:
+If you run into problems, check out the video in the previous chapter for a step-by-step walkthrough of the entire exercise.
+
+</aside>
+
+###### Your Task
+
+Create a new OSGi service that overrides the helloworld API.
+
+
+```text/x-java
+package com.liferay.university.hello.uppercase.impl;
+
+import com.liferay.university.hello.api.HelloService;
+import org.osgi.service.component.annotations.Component;
+
+@Component(
+    immediate = true,
+    service = HelloService.class
+)
+public class HelloUppercaseServiceImpl implements HelloService {
+    @Override
+    public String hello(String parameter) {
+        return parameter.toUpperCase();
+    }
+}
+```
+
+<aside>
+
+###### <span class="icon-16-star"></span> Pro Tip
+
+Notice that we're using another package here `("com.liferay.university.hello.uppercase.impl")`. OSGi works best when every package is published by exactly one bundle.
 
 </aside>
 
@@ -29,229 +59,159 @@ Check out the video in the previous chapter for a step-by-step walkthrough of in
 
 <article id="2">
 
-## Exercise Overview
+## Before Deployment
+Check that your command from the first exercise still works.
 
-For the first demonstration, we’ll create three projects:
-
-+ a `simple` API for a service
-+ a service implementation
-+ a client to call the service
-
-As we want to be as simple as possible, we’ll stick with the most basic components. Liferay comes with a shell, called `Gogo Shell`. We’ll display our output there.
-
+```text
+g! lb helloworld
+g! say hello
+hello
+```
 </article>
 
 <article id="3">
 
-## Service API
-
-To start, we’ll create a simple API
-
-###### Create
-
-+ `Open` Liferay Deveoper Studio
-+ Create a `Liferay Module Project`
-+ Name the project: `“helloworld-api”`
-+ For `Project Template Name`, select `“api”` from the drop down
-
-###### Follow
-
-+ Click `Next`
-+ Component Class Name: `HelloService`
-+ a simple API for a service
-+ Package Name: `com.liferay.university.hello.api`
-+ Click `Finish`
-
-###### Type
-
-+ Open `HelloService.java`
-+ Add the `hello` method signature below
-
-```text/x-java
-package com.liferay.university.hello.api;
-
-public interface HelloService {
-    String hello(String parameter);
-}
-```
-
-If you use Liferay Developer Studio with Liferay Workspace, it will have a proper project structure. Inspect `bnd.bnd` - it will have the following content:
+##### Deploy Your New Service Implementation
+Next, deploy your new service implementation. Now that you have two implementations for the helloworld API, what do you expect to be printed now?
 
 ```text
-Bundle-Name: helloworld-api
-Bundle-SymbolicName: com.liferay.university.hello.api
-Bundle-Version: 1.0.0
-Export-Package: com.liferay.university.hello.api
-```
-
-###### Deploy To Your Container
-
-When this project is built, we’ll have a bundle that we can deploy to any OSGi container. As you have Liferay, let’s start the server.
-
-+ Open a telnet client on localhost, port 11311, to access Gogo Shell
-+ Type g! lb helloworld to list all the bundles (lb) that have “helloworld” in their name
-
-Verify that helloworld-api is Active:
-
-```text
-g! lb helloworld
-START LEVEL 20
-   ID|State  	|Level|Name
-  590|Active 	|    1|helloworld-api (1.0.0)
+hello or HELLO
 ```
 
 </article>
 
 <article id="4">
 
-## Service Implementation
+## Determining Service Implementation Priority
+OSGi has the choice to freely bind whatever it needs. The requirement to have a service is satisfied by either of the two implementations. As the service is already bound, there’s no need to rebind.
 
-###### Create
-Now create a second project with the service implementation.
+**Service Bundle ID**
 
-+ Create a new `service` project in Liferay Developer Studio.
-+ Name the project `helloworld-service`
+In fact, one of OSGi’s strategies to determine which service has higher priority is the service bundle id - in this case the original implementation: A lower id has higher priority and will be preferred over a higher id.
 
-When the project is created, take a look at the `HelloServiceImpl` class:
+**But Wait, There’s More**
 
-```text/x-java
-package com.liferay.university.hello.impl;
+You might have heard about another criterion, one that you can influence: It’s called service rank. By default, services have a rank of 0, and if you configure a higher rank, the higher ranked service is preferred.
 
-import com.liferay.university.hello.api.HelloService;
-
-import org.osgi.service.component.annotations.Component;
-
-@Component
-public class HelloServiceImpl implements HelloService {
-    @Override
-    public String hello(String parameter) {
-   	 return parameter;
-    }
-}
-```
-
-Notice that the class “HelloService” is showing up as unresolved. To fix this, let’s import our interface.
-
-The gradle implementation in Liferay Workspace makes other modules from the same workspace easily available.
-
-+ Open build.gradle
-+ Add the following line to the existing dependencies:
-
-```text
-compileOnly project(":modules:helloworld-api")
-```
-+ Next, we need to get gradle to pick up the changed dependencies.
-+ Right-click and choose “Gradle/Refresh Gradle Project”
-
-The resulting project will automatically deploy to Liferay, ending up with both of our projects being available:
-
-```text
-g! lb helloworld
-START LEVEL 20
-   ID|State  	|Level|Name
-  590|Active 	|	1|helloworld-api (1.0.0)
-  591|Active 	|	1|helloworld-service (1.0.0)
-```
+**Note:** For services with the same rank, the OSGi runtime will determine priority by id.
 
 </article>
 
 <article id="5">
 
-## Calling The Service
-
-To call the service, let’s build a quick and dirty Gogo-Shell command that utilizes our service:
-
-+ Create another project of type “service”
-+ Name the project “helloworld-command”
-
-**Note:** This bundle will also depend on helloworld-api, just like the service implementation. Add the same dependency as above to build.gradle.Next, let’s call the relevant HelloService implementation and display the results in Gogo Shell.
+## Service Rank
+Let’s change our implementation and revalidate. Again: Think about your expectation. Make a mental or write it down.
 
 ```text/x-java
-package com.liferay.university.command;
-
-import com.liferay.university.hello.api.HelloService;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 @Component(
-   	   immediate=true,
-   	   service = Object.class,
-   	   property = {
-   	 	"osgi.command.function=say",
-   	 	"osgi.command.scope=custom"
-   	   }
-   	 )
-public class HelloWorldCommand {
-    
-    public void say(String what) {
-   	 System.out.println(helloService.hello(what));
+    immediate = true,
+    property = {
+        "service.ranking:Integer=100"
+    },
+    service = HelloService.class
+)
+public class HelloUppercaseServiceImpl implements HelloService {
+    @Override
+    public String hello(String parameter) {
+        return parameter.toUpperCase();
     }
-    
-    @Reference    
-    private HelloService helloService;
 }
 ```
 
-The @Component declaration will make sure that we can easily use this class as a command in Gogo Shell. Let’s try this: On Gogo Shell, validate that your service is deployed and active:
-
-Let’s try this: Validate that your service is deployed and active in Gogo Shell:
-
-
-```text
-g! lb helloworld
-START LEVEL 20
-   ID|State  	|Level|Name
-  590|Active 	|	1|helloworld-api (1.0.0)
-  591|Active 	|	1|helloworld-service (1.0.0)
-  592|Active 	|	1|helloworld-command (1.0.0)
-```
-
-Now type:
-
-```text
-g! say hello
-hello
-```
-
-**Congratulations,** your first and simplest possible OSGi Declarative Service.
+**Note:** Developer Studio can redeploy your service automatically.
 
 </article>
 
 <article id="6">
 
-## Dependency Injection Through OSGi
+## Check Gogo Shell
 
-Let’s use this simple code for further experimentation with Gogo Shell and mess with the runtime. 
-Note: Replace “591” with the ID for your service from Gogo Shell.
-
-```
-g! stop 591
-g! say hello
-gogo: CommandNotFoundException: Command not found: say
-```
-###### What Happened?
-
-```
+```text
 g! lb helloworld
 START LEVEL 20
-   ID|State  	|Level|Name
-  590|Active 	|	1|helloworld-api (1.0.0)
-  591|Resolved 	|	1|helloworld-service (1.0.0)
-  592|Resolved 	|	1|helloworld-command (1.0.0)
+   ID|State      |Level|Name
+  590|Active     |    1|helloworld-api (1.0.0)
+  591|Active     |    1|helloworld-service (1.0.0)
+  592|Active     |    1|helloworld-command (1.0.0)
+  593|Active     |    1|helloworld-capitalization-service (1.0.0)
+g! stop 592
+g! start 592
+g! say hello
+```
+So, there we are: The higher ranking service has been bound when the command has been restarted - it was the highest service rank available when they were looked up.
+
+**Learn By Experimenting**
+
+Figure out what happens when you stop the highest ranking service, and start it again. Think about your expectations beforehand.
+
+</article>
+
+<article id="7">
+
+## Service References
+
+**Static Binding**
+
+You’ve learned that the reference to services defaults to being static and will only be reconsidered upon restarting the dependent service - in our case the Gogo shell command.
+
+**Dynamic Binding**
+
+But what if you want to be more dynamic? This works as well, but you’ll need to let the runtime know that you’d like to get an updated service whenever a better one is available. Here’s an implementation for such a case.
+
+```text/x-java
+@Component(
+immediate = true,
+    property = {
+        "osgi.command.function=say",
+        "osgi.command.scope=custom"
+    },
+    service = Object.class
+)
+public class HelloWorldCommand {
+    
+    public void say(String what) {
+        System.out.println(helloService.hello(what));
+    }
+    
+    @Reference(
+               policy=ReferencePolicy.DYNAMIC,
+               policyOption=ReferencePolicyOption.GREEDY,
+               cardinality=ReferenceCardinality.MANDATORY)
+    protected void setHelloService(HelloService helloService) {
+        System.out.println("Setting " + helloService.getClass().getName());
+        this.helloService = helloService;
+    }
+    
+    protected void unsetHelloService(HelloService helloService) {
+        System.out.println("Unsetting helloService " + helloService.getClass().getName());
+        if (helloService == this.helloService) {
+            this.helloService = null;
+        }
+    }
+
+    private HelloService helloService;
+}
 ```
 
-###### Again: What Happened?
+**Note:** We now need a specific set and unset method for our reference, according to the OSGi specification:
 
-The helloworld-command service has a dependency on “helloworld-service” that is no longer satisfied. Thus, the OSGi runtime has not only stopped the service implementation, but also the helloworld-command service. 
+###### Try It!
 
-**Next,** start the helloworld-service bundle again and see if helloworld-command is restarted as well.
+Deploy the new command, then restart the service implementations as you like. Validate the behavior of the system. Did the results match your expectations?
 
-##### OSGi Bundle Lifecycle
+Well, at least you’ve seen one area where common expectation and the actual behavior of the runtime can differ. But that’s easy to fix, once you know what to expect.
 
-This brings us to the lifecycle of an OSGi bundle. As soon as you have deployed a bundle into an OSGi runtime, the runtime will attempt to resolve all available dependencies:
+</article>
 
-![alt img](https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2Fpatrick_kim_liferay_com_brv6j7%2Fpublic%2FOSGi+Bundle+Cycle.1523487975113.png)
+<article id="8">
 
-Let’s keep things simple with this first exercise, and make it more interesting in the next exercise. We’ll introduce a second implementation for our API and see if the new deployment meets your expectations.
+## More References
+
+As promised: Liferay's documentation has fabulous chapters about more options. Because we explicitly only want to cover the bare minimum - please see the documentation for more details.
+
+We hope you've gotten some good hints here and have a better understanding of the runtime behavior set:
+
++ [Overriding service references](https://customer.liferay.com/documentation/7.0/develop/tutorials/-/official_documentation/tutorials/overriding-service-references)
++ [Using Felix Gogo Shell](https://customer.liferay.com/documentation/7.0/develop/reference/-/official_documentation/reference/using-the-felix-gogo-shell)
 
 </article>
