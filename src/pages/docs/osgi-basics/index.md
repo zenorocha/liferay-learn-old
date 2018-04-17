@@ -14,8 +14,8 @@ weight: 1
 
 In order to follow the exercise in the video, you’ll need to install the following:
 
-+ Liferay Developer Studio
-+ Liferay Workspace
++ [Liferay Developer Studio](https://web.liferay.com/get-ee-trial/downloads/developer-studio)
++ [Liferay Workspace](https://customer.liferay.com/documentation/7.0/develop/tutorials/-/official_documentation/tutorials/installing-liferay-workspace)
 
 <aside>
 
@@ -249,6 +249,8 @@ The helloworld-command service has a dependency on “helloworld-service” that
 ##### OSGi Bundle Lifecycle
 
 This brings us to the lifecycle of an OSGi bundle. As soon as you have deployed a bundle into an OSGi runtime, the runtime will attempt to resolve all available dependencies:
+
+![alt img](https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2Fpatrick_kim_liferay_com_brv6j7%2Fpublic%2FOSGi+Bundle+Cycle.1523487975113.png)
 
 Let’s keep things simple with this first exercise, and make it more interesting in the next exercise. We’ll introduce a second implementation for our API and see if the new deployment meets your expectations.
 

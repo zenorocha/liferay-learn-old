@@ -16,9 +16,13 @@ weight: 4
 Each API can have multiple service implementations. Let’s try it out to see how multiple service implementations interact in the OSGi runtime.
 
 
-###### Pro Tip
+<aside>
+
+###### <span class="icon-16-star"></span> Pro Tip
 
 If you run into problems, check out the video in the previous chapter for a step-by-step walkthrough of the entire exercise.
+
+</aside>
 
 ###### Your Task
 
@@ -207,7 +211,7 @@ As promised: Liferay's documentation has fabulous chapters about more options. B
 
 We hope you've gotten some good hints here and have a better understanding of the runtime behavior set:
 
-+ Overriding service references
-+ Using Felix Gogo Shell
++ [Overriding service references](https://customer.liferay.com/documentation/7.0/develop/tutorials/-/official_documentation/tutorials/overriding-service-references)
++ [Using Felix Gogo Shell](https://customer.liferay.com/documentation/7.0/develop/reference/-/official_documentation/reference/using-the-felix-gogo-shell)
 
 </article>
