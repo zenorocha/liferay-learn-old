@@ -10,7 +10,7 @@ weight: 4
 
 <article id="1">
 
-## Deploy Multiple Implementations Of A Service
+## Deploy Multiple Implementations of a Service
 
 
 Each API can have multiple service implementations. Let’s try it out to see how multiple service implementations interact in the OSGi runtime.
