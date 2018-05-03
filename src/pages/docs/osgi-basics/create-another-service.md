@@ -20,7 +20,7 @@ Each API can have multiple service implementations. Let’s try it out to see ho
 
 ###### <span class="icon-16-star"></span> Pro Tip
 
-If you run into problems, check out the video in the previous chapter for a step-by-step walkthrough of the entire exercise.
+If you run into problems, or if something in here is unclear, check out the video in the next chapter for a step-by-step walkthrough video of the entire exercise.
 
 </aside>
 

@@ -21,7 +21,7 @@ In order to follow the exercise in the video, you’ll need to install the follo
 
 ###### <span class="icon-16-star"></span> Pro Tip
 
-Check out the video in the previous chapter for a step-by-step walkthrough of installing Liferay Developer Studio and Liferay Workspace:
+If this exercise text leaves questions open, the next chapter contains a step-by-step walkthrough video of installing Liferay Developer Studio and Liferay Workspace, as well as the exercise itself. Feel free to watch it during the exercise or if you run into problems.
 
 </aside>
 
