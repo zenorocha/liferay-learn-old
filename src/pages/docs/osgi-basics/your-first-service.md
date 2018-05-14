@@ -33,11 +33,11 @@ If this exercise text leaves questions open, the next chapter contains a step-by
 
 For the first demonstration, we’ll create three projects:
 
-+ a `simple` API for a service
++ a simple API for the service
 + a service implementation
 + a client to call the service
 
-As we want to be as simple as possible, we’ll stick with the most basic components. Liferay comes with a shell, called `Gogo Shell`. We’ll display our output there.
+As we want to be as simple as possible, we’ll stick with the most basic components. Liferay comes with a shell, called `Gogo Shell`. The Gogo Shell allows us to interact with the OSGi container and execute the client we are creating to run our service. 
 
 </article>
 
@@ -45,24 +45,23 @@ As we want to be as simple as possible, we’ll stick with the most basic compon
 
 ## Service API
 
-To start, we’ll create a simple API
+To start, we’ll create a simple API using the wizards provided by Liferay Developer Studio.
 
-###### Create
+###### Create the Project
 
-+ `Open` Liferay Deveoper Studio
++ `Open` Liferay Developer Studio
 + Create a `Liferay Module Project`
 + Name the project: `“helloworld-api”`
 + For `Project Template Name`, select `“api”` from the drop down
-
-###### Follow
-
 + Click `Next`
+
+###### Complete the Module Details
+
 + Component Class Name: `HelloService`
-+ a simple API for a service
 + Package Name: `com.liferay.university.hello.api`
 + Click `Finish`
 
-###### Type
+###### Create the Service API
 
 + Open `HelloService.java`
 + Add the `hello` method signature below
@@ -75,7 +74,7 @@ public interface HelloService {
 }
 ```
 
-If you use Liferay Developer Studio with Liferay Workspace, it will have a proper project structure. Inspect `bnd.bnd` - it will have the following content:
+Liferay Developer Studio, along with Liferay Workspace, will create a proper project structure for you, including the following `bnd.bnd` file:
 
 ```text
 Bundle-Name: helloworld-api
@@ -84,14 +83,16 @@ Bundle-Version: 1.0.0
 Export-Package: com.liferay.university.hello.api
 ```
 
-###### Deploy To Your Container
+###### Deploy to Your Container
 
-When this project is built, we’ll have a bundle that we can deploy to any OSGi container. As you have Liferay, let’s start the server.
+When this project is built, we’ll have a bundle that we can deploy to any OSGi container. Let's start Liferay within Liferay Developer Studio and use the OSGi container that is embedded into Liferay.
+
+![alt img](../../images/osgi-basics/Start_Liferay.png)
+
+###### Verify Your Service in the Gogo Shell
 
 + Open a telnet client on localhost, port 11311, to access Gogo Shell
 + Type g! lb helloworld to list all the bundles (lb) that have “helloworld” in their name
-
-Verify that helloworld-api is Active:
 
 ```text
 g! lb helloworld
@@ -157,7 +158,7 @@ START LEVEL 20
 
 <article id="5">
 
-## Calling The Service
+## Calling the Service
 
 To call the service, let’s build a quick and dirty Gogo-Shell command that utilizes our service:
 
