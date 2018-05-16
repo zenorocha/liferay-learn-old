@@ -168,11 +168,11 @@ immediate = true,
     service = Object.class
 )
 public class HelloWorldCommand {
-    
+
     public void say(String what) {
         System.out.println(helloService.hello(what));
     }
-    
+
     @Reference(
                policy=ReferencePolicy.DYNAMIC,
                policyOption=ReferencePolicyOption.GREEDY,
@@ -181,7 +181,7 @@ public class HelloWorldCommand {
         System.out.println("Setting " + helloService.getClass().getName());
         this.helloService = helloService;
     }
-    
+
     protected void unsetHelloService(HelloService helloService) {
         System.out.println("Unsetting helloService " + helloService.getClass().getName());
         if (helloService == this.helloService) {

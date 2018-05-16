@@ -182,12 +182,12 @@ import org.osgi.service.component.annotations.Reference;
    	   }
    	 )
 public class HelloWorldCommand {
-    
+
     public void say(String what) {
    	 System.out.println(helloService.hello(what));
     }
-    
-    @Reference    
+
+    @Reference
     private HelloService helloService;
 }
 ```
@@ -221,7 +221,7 @@ hello
 
 ## Dependency Injection Through OSGi
 
-Let’s use this simple code for further experimentation with Gogo Shell and mess with the runtime. 
+Let’s use this simple code for further experimentation with Gogo Shell and mess with the runtime.
 Note: Replace “591” with the ID for your service from Gogo Shell.
 
 ```
@@ -242,7 +242,7 @@ START LEVEL 20
 
 ###### Again: What Happened?
 
-The helloworld-command service has a dependency on “helloworld-service” that is no longer satisfied. Thus, the OSGi runtime has not only stopped the service implementation, but also the helloworld-command service. 
+The helloworld-command service has a dependency on “helloworld-service” that is no longer satisfied. Thus, the OSGi runtime has not only stopped the service implementation, but also the helloworld-command service.
 
 **Next,** start the helloworld-service bundle again and see if helloworld-command is restarted as well.
 
