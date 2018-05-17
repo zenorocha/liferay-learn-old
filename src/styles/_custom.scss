@@ -5,3 +5,15 @@ body {
 {
 	font-size: 2em;
 }
+// mobile-resize
+$break-small: 960px;
+.container-hybrid, .container-hybrid-half
+{
+	max-width: 80%;
+}
+
+// h2 letter spacing style
+.docs .guide-content h2
+{
+	line-height: 1.4em;
+}
