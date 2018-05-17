@@ -37,7 +37,7 @@ For the first demonstration, we’ll create three projects:
 + a service implementation
 + a client to call the service
 
-As we want to be as simple as possible, we’ll stick with the most basic components. Liferay comes with a shell, called `Gogo Shell`. The Gogo Shell allows us to interact with the OSGi container and execute the client we are creating to run our service. 
+As we want to be as simple as possible, we’ll stick with the most basic components. Liferay comes with a shell, called `Gogo Shell`. The Gogo Shell allows us to interact with the OSGi container and execute the client we are creating to run our service.
 
 </article>
 
@@ -70,7 +70,7 @@ To start, we’ll create a simple API using the wizards provided by Liferay Deve
 package com.liferay.university.hello.api;
 
 public interface HelloService {
-    String hello(String parameter);
+		String hello(String parameter);
 }
 ```
 
@@ -97,8 +97,8 @@ When this project is built, we’ll have a bundle that we can deploy to any OSGi
 ```text
 g! lb helloworld
 START LEVEL 20
-   ID|State  	|Level|Name
-  590|Active 	|    1|helloworld-api (1.0.0)
+	 ID|State  	|Level|Name
+	590|Active 	|    1|helloworld-api (1.0.0)
 ```
 
 </article>
@@ -124,10 +124,10 @@ import org.osgi.service.component.annotations.Component;
 
 @Component
 public class HelloServiceImpl implements HelloService {
-    @Override
-    public String hello(String parameter) {
-   	 return parameter;
-    }
+		@Override
+		public String hello(String parameter) {
+		 return parameter;
+		}
 }
 ```
 
@@ -149,9 +149,9 @@ The resulting project will automatically deploy to Liferay, ending up with both 
 ```text
 g! lb helloworld
 START LEVEL 20
-   ID|State  	|Level|Name
-  590|Active 	|	1|helloworld-api (1.0.0)
-  591|Active 	|	1|helloworld-service (1.0.0)
+	 ID|State  	|Level|Name
+	590|Active 	|	1|helloworld-api (1.0.0)
+	591|Active 	|	1|helloworld-service (1.0.0)
 ```
 
 </article>
@@ -175,21 +175,21 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 @Component(
-   	   immediate=true,
-   	   service = Object.class,
-   	   property = {
-   	 	"osgi.command.function=say",
-   	 	"osgi.command.scope=custom"
-   	   }
-   	 )
+			 immediate=true,
+			 service = Object.class,
+			 property = {
+			"osgi.command.function=say",
+			"osgi.command.scope=custom"
+			 }
+		 )
 public class HelloWorldCommand {
 
-    public void say(String what) {
-   	 System.out.println(helloService.hello(what));
-    }
+		public void say(String what) {
+		 System.out.println(helloService.hello(what));
+		}
 
-    @Reference
-    private HelloService helloService;
+		@Reference
+		private HelloService helloService;
 }
 ```
 
@@ -201,10 +201,10 @@ Let’s try this: Validate that your service is deployed and active in Gogo Shel
 ```text
 g! lb helloworld
 START LEVEL 20
-   ID|State  	|Level|Name
-  590|Active 	|	1|helloworld-api (1.0.0)
-  591|Active 	|	1|helloworld-service (1.0.0)
-  592|Active 	|	1|helloworld-command (1.0.0)
+	 ID|State  	|Level|Name
+	590|Active 	|	1|helloworld-api (1.0.0)
+	591|Active 	|	1|helloworld-service (1.0.0)
+	592|Active 	|	1|helloworld-command (1.0.0)
 ```
 
 Now type:
@@ -235,10 +235,10 @@ gogo: CommandNotFoundException: Command not found: say
 ```
 g! lb helloworld
 START LEVEL 20
-   ID|State  	|Level|Name
-  590|Active 	|	1|helloworld-api (1.0.0)
-  591|Resolved 	|	1|helloworld-service (1.0.0)
-  592|Resolved 	|	1|helloworld-command (1.0.0)
+	 ID|State  	|Level|Name
+	590|Active 	|	1|helloworld-api (1.0.0)
+	591|Resolved 	|	1|helloworld-service (1.0.0)
+	592|Resolved 	|	1|helloworld-command (1.0.0)
 ```
 
 ###### Again: What Happened?
