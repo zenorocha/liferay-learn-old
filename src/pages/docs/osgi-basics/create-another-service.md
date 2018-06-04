@@ -137,6 +137,7 @@ START LEVEL 20
 g! stop 592
 g! start 592
 g! say hello
+HELLO
 ```
 So, there we are: The higher ranking service has been bound when the command has been restarted - it was the highest service rank available when they were looked up.
 
