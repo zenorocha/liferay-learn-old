@@ -1,6 +1,6 @@
 ---
-title: "Usermanagement"
-description: "Usermanagement"
+title: "User Management"
+description: "User Management"
 layout: "guide"
 icon: "cloud"
 weight: 4
@@ -10,7 +10,7 @@ weight: 4
 
 <article id="1">
 
-## Usermanagement
+## User Management
 
 
 We didn’t do a lot in Liferay yet, but in order to change something, we’ll need to sign in - and that’s where User Management comes in.
