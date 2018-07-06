@@ -3,7 +3,8 @@
   "name": "liferay-learning-ee",
   "version": "0.0.0",
   "scripts": {
-    "start": "electric"
+    "start": "electric",
+    "test": "electric build"
   },
   "devDependencies": {
     "electric-cli": "^2.2.0",
